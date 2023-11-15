@@ -151,11 +151,13 @@ document.querySelectorAll(".js-add-to-cart").forEach((button, index) => {
     // console.log(button.dataset.productName);
     const {id} = products[index];
     let duplicateFound = false;
+    let cartQuantity = 0;
     cart.forEach((item) => {
       if(item.id === id) {
         duplicateFound = true;
         item.quantity += 1;
       }
+      cartQuantity += item.quantity;
     });
 
     if(!duplicateFound) {
@@ -164,8 +166,10 @@ document.querySelectorAll(".js-add-to-cart").forEach((button, index) => {
         quantity: 1
       });
       duplicateFound = false;
+      cartQuantity += 1;
     }
     
-    console.log(cart);
+    document.querySelector('.js-cart-quantity')
+      .innerHTML = cartQuantity;
   });
 });

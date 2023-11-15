@@ -84,7 +84,8 @@ products.forEach((product, index) => {
       Added
     </div>
 
-    <button class="add-to-cart-button button-primary">
+    <!-- Adding a dataset to the button -->
+    <button class="add-to-cart-button button-primary js-add-to-cart" data-product-name='${product.name}'>
       Add to Cart
     </button>
   `;
@@ -143,4 +144,28 @@ products.forEach((product, index) => {
 
   productsGrid.innerHTML += productContainerTemplate;
   */
+});
+
+document.querySelectorAll(".js-add-to-cart").forEach((button, index) => {
+  button.addEventListener('click', () => {
+    // console.log(button.dataset.productName);
+    const {id} = products[index];
+    let duplicateFound = false;
+    cart.forEach((item) => {
+      if(item.id === id) {
+        duplicateFound = true;
+        item.quantity += 1;
+      }
+    });
+
+    if(!duplicateFound) {
+      cart.push({
+        id,
+        quantity: 1
+      });
+      duplicateFound = false;
+    }
+    
+    console.log(cart);
+  });
 });

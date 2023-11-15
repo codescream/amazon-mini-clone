@@ -36,6 +36,10 @@ import { products } from "../data/products.js";
   priceCents: 1899
 }];
 */
+function updateCartQuantity(cartQuantity) {
+  document.querySelector('.js-cart-quantity')
+    .innerHTML = cartQuantity;
+}
 
 const productsGrid = document.querySelector(".products-grid");
 
@@ -148,16 +152,11 @@ products.forEach((product, index) => {
   */
 });
 
-export function updateCartQuantity(cartQuantity) {
-  document.querySelector('.js-cart-quantity')
-    .innerHTML = cartQuantity;
-}
-
 document.querySelectorAll(".js-add-to-cart").forEach((button, index) => {
   button.addEventListener('click', () => {
     // console.log(button.dataset.productName);
     const {id} = products[index];
 
-    addToCart(id);
+    updateCartQuantity(addToCart(id));
   });
 });

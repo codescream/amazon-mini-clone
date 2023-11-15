@@ -36,7 +36,10 @@ export function removeFromCart(prodId) {
   cart.forEach((cartItem, index) => {
     if (cartItem.id === prodId) {
       cart.splice(index, 1);
-      console.log('removed:', prodId);
     }
+
+    const container = document.querySelector(`.js-cart-item-container-${prodId}`);
+
+    container.remove();
   });
 }

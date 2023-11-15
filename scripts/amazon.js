@@ -1,4 +1,4 @@
-import { addToCart } from "../data/cart.js";
+import { addToCart, getCartQuantity } from "../data/cart.js";
 import { products } from "../data/products.js";
 import { formatCurrency } from "../scripts/utils/money.js"
 /*const products = [{
@@ -37,6 +37,9 @@ import { formatCurrency } from "../scripts/utils/money.js"
   priceCents: 1899
 }];
 */
+document.querySelector('.js-cart-quantity')
+  .innerHTML = JSON.parse(localStorage.getItem('cart'))? getCartQuantity(JSON.parse(localStorage.getItem('cart'))) : 0;
+
 function updateCartQuantity(cartQuantity) {
   document.querySelector('.js-cart-quantity')
     .innerHTML = cartQuantity;

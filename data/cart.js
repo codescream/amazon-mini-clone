@@ -1,12 +1,6 @@
 // import { updateCartQuantity } from "../scripts/amazon.js";
 
-export const cart = [{
-  id: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
-  quantity: 1
-}, {
-  id: "15b6fc6f-327a-4ec4-896f-486349e85a3d",
-  quantity: 2
-}];
+export const cart = JSON.parse(localStorage.getItem('cart'))? JSON.parse(localStorage.getItem('cart')) : [];
 
 export function addToCart(id) {
   const itemQuantity = Number(document.querySelector(`.js-quantity-selector-${id}`).value);
@@ -29,7 +23,23 @@ export function addToCart(id) {
     cartQuantity += itemQuantity;
   }
   
+  saveToStorage(cart);
   return cartQuantity;
+}
+
+export function getCartQuantity(cart) {
+  let cartQuantity = 0;
+  cart.forEach((cartItem) => {
+    cartQuantity += cartItem.quantity;
+  });
+
+  return cartQuantity;
+}
+
+function saveToStorage(cart) {
+  const cartJson = JSON.stringify(cart);
+
+  localStorage.setItem('cart', JSON.stringify(cart));
 }
 
 export function removeFromCart(prodId) {
@@ -39,6 +49,8 @@ export function removeFromCart(prodId) {
     }
 
     const container = document.querySelector(`.js-cart-item-container-${prodId}`);
+
+    const cartJson = JSON.stringify(cart);
 
     container.remove();
   });

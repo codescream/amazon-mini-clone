@@ -31,3 +31,12 @@ export function addToCart(id) {
   
   return cartQuantity;
 }
+
+export function removeFromCart(prodId) {
+  cart.forEach((cartItem, index) => {
+    if (cartItem.id === prodId) {
+      cart.splice(index, 1);
+      console.log('removed:', prodId);
+    }
+  });
+}

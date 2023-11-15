@@ -63,7 +63,7 @@ products.forEach((product, index) => {
     </div>
 
     <div class="product-quantity-container">
-      <select>
+      <select class="js-quantity-selector-${product.id}">
         <option selected value="1">1</option>
         <option value="2">2</option>
         <option value="3">3</option>
@@ -150,12 +150,14 @@ document.querySelectorAll(".js-add-to-cart").forEach((button, index) => {
   button.addEventListener('click', () => {
     // console.log(button.dataset.productName);
     const {id} = products[index];
+    const itemQuantity = Number(document.querySelector(`.js-quantity-selector-${id}`).value);
+
     let duplicateFound = false;
     let cartQuantity = 0;
     cart.forEach((item) => {
       if(item.id === id) {
         duplicateFound = true;
-        item.quantity += 1;
+        item.quantity += itemQuantity;
       }
       cartQuantity += item.quantity;
     });
@@ -163,13 +165,15 @@ document.querySelectorAll(".js-add-to-cart").forEach((button, index) => {
     if(!duplicateFound) {
       cart.push({
         id,
-        quantity: 1
+        quantity: itemQuantity
       });
       duplicateFound = false;
-      cartQuantity += 1;
+      cartQuantity += itemQuantity;
     }
     
     document.querySelector('.js-cart-quantity')
       .innerHTML = cartQuantity;
+
+      console.log(cart);
   });
 });

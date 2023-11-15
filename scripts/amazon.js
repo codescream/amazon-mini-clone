@@ -1,4 +1,4 @@
-import { cart as myCart } from "../data/cart.js";
+import { addToCart } from "../data/cart.js";
 import { products } from "../data/products.js";
 /*const products = [{
   image: "images/products/athletic-cotton-socks-6-pairs.jpg",
@@ -148,32 +148,16 @@ products.forEach((product, index) => {
   */
 });
 
+export function updateCartQuantity(cartQuantity) {
+  document.querySelector('.js-cart-quantity')
+    .innerHTML = cartQuantity;
+}
+
 document.querySelectorAll(".js-add-to-cart").forEach((button, index) => {
   button.addEventListener('click', () => {
     // console.log(button.dataset.productName);
     const {id} = products[index];
-    const itemQuantity = Number(document.querySelector(`.js-quantity-selector-${id}`).value);
 
-    let duplicateFound = false;
-    let cartQuantity = 0;
-    myCart.forEach((item) => {
-      if(item.id === id) {
-        duplicateFound = true;
-        item.quantity += itemQuantity;
-      }
-      cartQuantity += item.quantity;
-    });
-
-    if(!duplicateFound) {
-      myCart.push({
-        id,
-        quantity: itemQuantity
-      });
-      duplicateFound = false;
-      cartQuantity += itemQuantity;
-    }
-    
-    document.querySelector('.js-cart-quantity')
-      .innerHTML = cartQuantity;
+    addToCart(id);
   });
 });

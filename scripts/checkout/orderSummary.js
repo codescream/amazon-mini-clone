@@ -4,6 +4,7 @@ import { formatCurrency } from "../utils/money.js";
 import { deliveryOptions, convertDeliveryOptions } from "../../data/deliveryOptions.js";
 import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js';
 import { renderPaymentSummary } from "./paymentSummary.js";
+import { renderCheckoutHeader } from "./checkoutHeader.js";
 
 let deliveryOptionsHtml;
 
@@ -75,6 +76,7 @@ export function renderCheckOutPage() {
           // document.querySelectorAll('.js-delivery-date')[index].innerHTML = `Delivery date: ${convertDeliveryOptions(deliveryOption.dataset.deliveryOption)}`;
           saveToStorage(cart);
           
+          renderCheckoutHeader();
           renderCheckOutPage();
           renderPaymentSummary();
         }
@@ -86,7 +88,7 @@ export function renderCheckOutPage() {
     link.addEventListener('click', () => {
       removeFromCart(link.dataset.productId);
       
-     
+      renderCheckoutHeader();
       renderCheckOutPage();
       renderPaymentSummary();
     });
@@ -95,8 +97,8 @@ export function renderCheckOutPage() {
   // document.querySelector('.js-payment-summary-row')
   // .innerHTML = `Items (${getCartQuantity(cart)}):`;
 
-  document.querySelector('.js-return-to-home-link')
-    .innerHTML = `${getCartQuantity(cart)} Items`;
+  // document.querySelector('.js-return-to-home-link')
+  //   .innerHTML = `${getCartQuantity(cart)} Items`;
 }
 
 function generateDeliveryOptions(cartItem, index) {

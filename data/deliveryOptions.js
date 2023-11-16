@@ -1,3 +1,5 @@
+import { formatDate } from "../scripts/checkout.js";
+
 export const deliveryOptions = [{
   id: '1',
   deliveryDays: 7,
@@ -11,3 +13,14 @@ export const deliveryOptions = [{
   deliveryDays: 1,
   priceCents: 999
 }];
+
+export function convertDeliveryOptions(deliveryOption) {
+  let date;
+  deliveryOptions.forEach((option) => {
+    if (option.id === deliveryOption) {
+      date = formatDate(option.deliveryDays)
+    }
+  });
+
+  return date;
+}

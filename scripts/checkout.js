@@ -1,18 +1,19 @@
 import { cart, removeFromCart, getCartQuantity, saveToStorage } from "../data/cart.js";
 import { products } from "../data/products.js";
 import { formatCurrency } from "./utils/money.js";
-import { deliveryOptions } from "../data/deliveryOptions.js";
+import { deliveryOptions, convertDeliveryOptions } from "../data/deliveryOptions.js";
 import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js';
 
 let cartGenerated = '';
 let deliveryOptionsHtml;
 
-function formatDate(numberOfDays) {
+export function formatDate(numberOfDays) {
   const today = dayjs();
   return today
     .add(numberOfDays, 'days')
     .format('dddd, MMMM D');
 }
+
 
 cart.forEach((cartItem, index) => {
 
@@ -21,8 +22,8 @@ cart.forEach((cartItem, index) => {
       const { image, name, priceCents } = product;
 
       cartGenerated +=`<div class="cart-item-container js-cart-item-container-${product.id}">
-            <div class="delivery-date">
-              Delivery date: Tuesday, June 21
+            <div class="delivery-date js-delivery-date">
+              Delivery date: ${cartItem.deliveryOptionId ? convertDeliveryOptions(cartItem.deliveryOptionId) : ''}
             </div>
 
             <div class="cart-item-details-grid">
@@ -93,9 +94,10 @@ function generateDeliveryOptions(cartItem, index) {
 
 document.querySelectorAll('.js-delivery-option-input').forEach((deliveryOption) => {
   deliveryOption.addEventListener('click', () => {
-    cart.forEach((cartItem) => {
+    cart.forEach((cartItem, index) => {
       if(cartItem.id === deliveryOption.dataset.productId) {
         cartItem.deliveryOptionId = deliveryOption.dataset.deliveryOption;
+        document.querySelectorAll('.js-delivery-date')[index].innerHTML = `Delivery date: ${convertDeliveryOptions(deliveryOption.dataset.deliveryOption)}`;
         saveToStorage(cart);
       }
     });

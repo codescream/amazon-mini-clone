@@ -48,8 +48,8 @@ export function removeFromCart(prodId) {
       const container = document.querySelector(`.js-cart-item-container-${prodId}`);
       
       saveToStorage(cart);
-      
-      container.remove();
+
+      // container.remove();
     }
   });
 }

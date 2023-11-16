@@ -24,3 +24,14 @@ export function convertDeliveryOptions(deliveryOption) {
 
   return date;
 }
+
+export function getDeliveryOption(deliveryId) {
+  let deliveryOption;
+  deliveryOptions.forEach((option) => {
+    if (option.id === deliveryId) {
+      deliveryOption = option;
+    }
+  });
+
+  return deliveryOption;
+}

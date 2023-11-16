@@ -74,8 +74,9 @@ export function renderCheckOutPage() {
           cartItem.deliveryOptionId = deliveryOption.dataset.deliveryOption;
           // document.querySelectorAll('.js-delivery-date')[index].innerHTML = `Delivery date: ${convertDeliveryOptions(deliveryOption.dataset.deliveryOption)}`;
           saveToStorage(cart);
-          renderPaymentSummary();
+          
           renderCheckOutPage();
+          renderPaymentSummary();
         }
       });
     });
@@ -84,6 +85,10 @@ export function renderCheckOutPage() {
   document.querySelectorAll('.js-delete-link').forEach((link) => {
     link.addEventListener('click', () => {
       removeFromCart(link.dataset.productId);
+      
+     
+      renderCheckOutPage();
+      renderPaymentSummary();
     });
   });
 

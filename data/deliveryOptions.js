@@ -1,4 +1,4 @@
-import { formatDate } from "../scripts/checkout.js";
+import { formatDate } from "../scripts/checkout/orderSummary.js";
 
 export const deliveryOptions = [{
   id: '1',

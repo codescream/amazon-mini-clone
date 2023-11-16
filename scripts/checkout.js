@@ -1,8 +1,18 @@
-import { cart, removeFromCart, getCartQuantity } from "../data/cart.js";
+import { cart, removeFromCart, getCartQuantity, saveToStorage } from "../data/cart.js";
 import { products } from "../data/products.js";
 import { formatCurrency } from "./utils/money.js";
+import { deliveryOptions } from "../data/deliveryOptions.js";
+import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js';
 
 let cartGenerated = '';
+let deliveryOptionsHtml;
+
+function formatDate(numberOfDays) {
+  const today = dayjs();
+  return today
+    .add(numberOfDays, 'days')
+    .format('dddd, MMMM D');
+}
 
 cart.forEach((cartItem, index) => {
 
@@ -43,45 +53,7 @@ cart.forEach((cartItem, index) => {
                 <div class="delivery-options-title">
                   Choose a delivery option:
                 </div>
-                <div class="delivery-option">
-                  <input type="radio" checked
-                    class="delivery-option-input"
-                    name="delivery-option-${index}">
-                  <div>
-                    <div class="delivery-option-date">
-                      Tuesday, June 21
-                    </div>
-                    <div class="delivery-option-price">
-                      FREE Shipping
-                    </div>
-                  </div>
-                </div>
-                <div class="delivery-option">
-                  <input type="radio"
-                    class="delivery-option-input"
-                    name="delivery-option-${index}">
-                  <div>
-                    <div class="delivery-option-date">
-                      Wednesday, June 15
-                    </div>
-                    <div class="delivery-option-price">
-                      $4.99 - Shipping
-                    </div>
-                  </div>
-                </div>
-                <div class="delivery-option">
-                  <input type="radio"
-                    class="delivery-option-input"
-                    name="delivery-option-${index}">
-                  <div>
-                    <div class="delivery-option-date">
-                      Monday, June 13
-                    </div>
-                    <div class="delivery-option-price">
-                      $9.99 - Shipping
-                    </div>
-                  </div>
-                </div>
+                ${generateDeliveryOptions(cartItem, index)}
               </div>
             </div>
           </div>
@@ -91,6 +63,44 @@ cart.forEach((cartItem, index) => {
 });
 
 document.querySelector('.js-order-summary').innerHTML = cartGenerated;
+
+function generateDeliveryOptions(cartItem, index) {
+  deliveryOptionsHtml = '';
+  deliveryOptions.forEach((deliveryOption) => {
+    const formattedDeliveryPrice = formatCurrency(deliveryOption.priceCents);
+    let deliveryCost =  (formattedDeliveryPrice > 0) ? 
+    `$${formattedDeliveryPrice} -` : 'FREE';
+
+    const isChecked = (cartItem.deliveryOptionId === deliveryOption.id) ? 'checked' : '';
+    deliveryOptionsHtml += 
+        `<div class="delivery-option">
+          <input type="radio" ${isChecked}
+            class="delivery-option-input js-delivery-option-input"
+            name="delivery-option-${index}" data-product-id="${cartItem.id}" data-delivery-option=${deliveryOption.id}>
+          <div>
+            <div class="delivery-option-date">
+              ${formatDate(deliveryOption.deliveryDays)}
+            </div>
+            <div class="delivery-option-price">
+              ${deliveryCost} Shipping
+            </div>
+          </div>
+        </div>`;
+  });
+
+  return deliveryOptionsHtml;
+}
+
+document.querySelectorAll('.js-delivery-option-input').forEach((deliveryOption) => {
+  deliveryOption.addEventListener('click', () => {
+    cart.forEach((cartItem) => {
+      if(cartItem.id === deliveryOption.dataset.productId) {
+        cartItem.deliveryOptionId = deliveryOption.dataset.deliveryOption;
+        saveToStorage(cart);
+      }
+    });
+  });
+});
 
 document.querySelectorAll('.js-delete-link').forEach((link) => {
   link.addEventListener('click', () => {

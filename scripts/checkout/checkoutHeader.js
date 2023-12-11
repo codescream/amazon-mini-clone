@@ -5,15 +5,15 @@ export function renderCheckoutHeader() {
   document.querySelector('.js-checkout-header').innerHTML = `
         <div class="header-content">
         <div class="checkout-header-left-section">
-          <a href="amazon.html">
-            <img class="amazon-logo" src="images/amazon-logo.png">
-            <img class="amazon-mobile-logo" src="images/amazon-mobile-logo.png">
+          <a href="index.html">
+            <img class="amazon-logo" src="images/markogiloLogo.svg">
+            <img class="amazon-mobile-logo" src="images/markogiloLogo.svg">
           </a>
         </div>
 
         <div class="checkout-header-middle-section">
           Checkout (<a class="return-to-home-link js-return-to-home-link"
-            href="amazon.html">${getCartQuantity(cart)} Items</a>)
+            href="index.html">${getCartQuantity(cart)} Items</a>)
         </div>
 
         <div class="checkout-header-right-section">

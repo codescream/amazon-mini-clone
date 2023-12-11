@@ -35,12 +35,13 @@
 }
 
 .header-link:hover {
-  border: 1px solid white;
+  /* border: 1px solid white; */
 }
 
 .amazon-logo {
-  width: 100px;
+  width: 55px;
   margin-top: 5px;
+  outline: none;
 }
 
 .amazon-mobile-logo {
